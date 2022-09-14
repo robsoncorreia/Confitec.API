@@ -15,18 +15,17 @@ namespace Confitec.API.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IAplicacaoUsuario _aplicacaoUsuario;
-        private readonly ConfitecAPIContext _context;
 
-        public UsuarioController(ConfitecAPIContext context, IAplicacaoUsuario aplicacaoUsuario)
+        public UsuarioController(IAplicacaoUsuario aplicacaoUsuario)
         {
             _aplicacaoUsuario = aplicacaoUsuario;
-            _context = context;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
-            return await _aplicacaoUsuario.Listar();
+            var list = await _aplicacaoUsuario.Listar();
+            return list;
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuario(int id)
@@ -44,15 +43,13 @@ namespace Confitec.API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(usuario).State = EntityState.Modified;
-
             try
             {
-                _ = await _context.SaveChangesAsync();
+                 await _aplicacaoUsuario.Atualizar(usuario);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+                if (!await UsuarioExists(id))
                 {
                     return NotFound();
                 }
@@ -76,21 +73,20 @@ namespace Confitec.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Usuario>> DeleteUsuario(int id)
         {
-            Usuario usuario = await _context.Usuario.FindAsync(id);
+            Usuario usuario = await _aplicacaoUsuario.BuscarPorId(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            _ = _context.Usuario.Remove(usuario);
-            _ = await _context.SaveChangesAsync();
+            await  _aplicacaoUsuario.Excluir(usuario);
 
             return usuario;
         }
 
-        private bool UsuarioExists(int id)
+        private async Task<bool> UsuarioExists(int id)
         {
-            return _context.Usuario.Any(e => e.Id == id);
+            return await _aplicacaoUsuario.BuscarPorId(id) is Usuario;
         }
     }
 }

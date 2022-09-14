@@ -22,6 +22,10 @@ namespace Confitec.Dominio.Servico
             {
                 return;
             }
+            if (!usuario.ValidaData(usuario.DataNascimento))
+            {
+                return;
+            }
             await _usuario.Adicionar(usuario);
         }
 
@@ -31,8 +35,13 @@ namespace Confitec.Dominio.Servico
         {
             if (!usuario.ValidaEmail(usuario.Email))
             {
-                await _usuario.Atualizar(usuario);
+                return;
             }
+            if (!usuario.ValidaData(usuario.DataNascimento))
+            {
+                return;
+            }
+            await _usuario.Atualizar(usuario);
         }
 
 

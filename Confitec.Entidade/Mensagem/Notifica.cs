@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Confitec.Entidade.Mensagem
@@ -37,6 +36,12 @@ namespace Confitec.Entidade.Mensagem
             }
             return true;
         }
+        public bool ValidaData(DateTime date)
+        {
+            return !(date > DateTime.Now);
+        }
     }
+
+
 
 }
