@@ -28,8 +28,6 @@ namespace Confitec.API.Controllers
         {
             return await _aplicacaoUsuario.Listar();
         }
-
-        // GET: api/Usuarios/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
@@ -71,12 +69,10 @@ namespace Confitec.API.Controllers
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
             await _aplicacaoUsuario.Adicionar(usuario);
-            //_ = await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
         }
 
-        // DELETE: api/Usuarios/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Usuario>> DeleteUsuario(int id)
         {
