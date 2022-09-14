@@ -4,6 +4,7 @@ using Confitec.Dominio.Interface;
 using Confitec.Dominio.Interface.Generico;
 using Confitec.Dominio.Interface.InterfaceServico;
 using Confitec.Dominio.Servico;
+using Confitec.Infraestrutura.Configuracao;
 using Confitec.Infraestrutura.Repositorio;
 using Confitec.Infraestrutura.Repositorio.Generico;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,9 @@ namespace Confitec.API
             _ = services.AddSingleton<IUsuario, UsuarioRepositorio>();
             _ = services.AddSingleton<IUsuarioServico, UsuarioServico>();
             _ = services.AddSingleton<IAplicacaoUsuario, AplicacaoUsuario>();
+
+            _ = services.AddDbContext<ConfitecAPIContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ConfitecAPIContext")));
 
 
         }

@@ -14,15 +14,15 @@ namespace Confitec.Infraestrutura.Repositorio
 {
     public class UsuarioRepositorio : GenericoRepositorio<Usuario>, IUsuario
     {
-        private readonly DbContextOptions<Contexto> _dbContextOptions;
+        private readonly DbContextOptions<ConfitecAPIContext> _dbContextOptions;
 
         public UsuarioRepositorio()
         {
-            _dbContextOptions = new DbContextOptions<Contexto>();
+            _dbContextOptions = new DbContextOptions<ConfitecAPIContext>();
         }
         public async Task<List<Usuario>> ListarUsuarios(Expression<Func<Usuario, bool>> expression)
         {
-            using var data = new Contexto(_dbContextOptions);
+            using var data = new ConfitecAPIContext(_dbContextOptions);
             return await data.Usuario.Where(expression).AsNoTracking().ToListAsync();
         }
     }

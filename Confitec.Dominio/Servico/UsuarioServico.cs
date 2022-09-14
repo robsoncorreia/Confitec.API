@@ -1,9 +1,7 @@
 ﻿using Confitec.Dominio.Interface;
 using Confitec.Dominio.Interface.InterfaceServico;
 using Confitec.Entidade.Entidade;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Confitec.Dominio.Servico
@@ -22,8 +20,9 @@ namespace Confitec.Dominio.Servico
         {
             if (!usuario.ValidaEmail(usuario.Email))
             {
-                await _usuario.Adicionar(usuario);
+                return;
             }
+            await _usuario.Adicionar(usuario);
         }
 
 
@@ -39,7 +38,7 @@ namespace Confitec.Dominio.Servico
 
         public async Task<Usuario> BuscarPorId(int id)
         {
-          return  await _usuario.BuscarPorId(id);
+            return await _usuario.BuscarPorId(id);
         }
 
 
